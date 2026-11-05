@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.propreplace.app'
+    namespace 'com.propreplace'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.propreplace.app"
+        applicationId "com.propreplace"
         minSdk 21
         targetSdk 33
         versionCode 1
