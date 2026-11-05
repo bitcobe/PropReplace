@@ -1,4 +1,3 @@
-
 package com.propreplace;
 
 import android.Manifest;
@@ -15,11 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main.xml.equals("R.layout.activity_main") ? R.layout.activity_main : R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         Button btnLoadProp = findViewById(R.id.btnLoadProp);
 
@@ -110,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean executeRootCommands(String sourcePath) {
         Process process = null;
         try {
-            // Pokretanje su shell-a
             process = Runtime.getRuntime().exec("su");
             OutputStream outputStream = process.getOutputStream();
 
