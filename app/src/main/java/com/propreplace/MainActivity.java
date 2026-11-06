@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnLoadProp = findViewById(R.id.btnLoadProp);
 
-        // Provera dozvola za čitanje eksterne memorije
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -53,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         try {
-            startActivityForResult(Intent.createChooser(intent, "Izaberi .prop fajl"), PICK_FILE_REQUEST);
+            startActivityForResult(Intent.createChooser(intent, "Select .prop file"), PICK_FILE_REQUEST);
         } catch (Exception e) {
-            Toast.makeText(this, "Greška pri otvaranju fajl menadžera", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error opening file manager", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -73,13 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void processAndReplaceProp(Uri uri) {
         try {
-            // 1. Kopiranje izabranog fajla u lokalni keš direktorijum aplikacije
             File cacheFile = new File(getCacheDir(), "temp_replacement.prop");
             try (InputStream inputStream = getContentResolver().openInputStream(uri);
                  OutputStream outputStream = new FileOutputStream(cacheFile)) {
                 
                 if (inputStream == null) {
-                    Toast.makeText(this, "Ne mogu da pročitam izabrani fajl", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Cannot read the selected file", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -90,17 +88,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            // 2. Izvršavanje root komandi za zamenu build.prop fajla
             boolean success = executeRootCommands(cacheFile.getAbsolutePath());
 
             if (success) {
-                Toast.makeText(this, "Uspešno zamenjen build.prop! Restartujte telefon.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Successfully replaced build.prop! Please restart your device.", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Greška: Root pristup odbijen ili komanda nije uspela", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Error: Root access denied or command failed", Toast.LENGTH_LONG).show();
             }
 
         } catch (Exception e) {
-            Toast.makeText(this, "Greška: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
